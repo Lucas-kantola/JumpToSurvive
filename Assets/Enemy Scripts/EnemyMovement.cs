@@ -10,9 +10,11 @@ public class EnemyMovement : MonoBehaviour
     public PlayerDetection playerDetectedCheck;
     public GameObject findPlayer;
     public Transform player;
+    public Animator animator;
+    public SpriteRenderer sr;
     //public EdgeR edgeDetectedRCheck;
 
-    float turnCounter = 0f;
+    //float turnCounter = 0f;
     public float maxVelocity;
     float moveSpeed;
     public float chaseSpeed;
@@ -40,8 +42,8 @@ public class EnemyMovement : MonoBehaviour
 
         playerDetected = playerDetectedCheck.playerDetected;
 
-        if (turnCounter > 0f)
-            turnCounter -= Time.deltaTime;
+        //if (turnCounter > 0f)
+        //    turnCounter -= Time.deltaTime;
 
         Movespeed();
         Movement(right);
@@ -56,17 +58,27 @@ public class EnemyMovement : MonoBehaviour
                 //transform.position = Vector2.MoveTowards(transform.position, new Vector2(player.position.x, transform.position.y), moveSpeed * Time.deltaTime);
             if (right && rb.velocity.x < maxVelocity)
             {
-
-                rb.AddForce(Vector2.right * moveSpeed * Time.deltaTime, ForceMode2D.Force);
+                Vector2 force = Vector2.right * moveSpeed * Time.deltaTime;
+                rb.AddForce(force, ForceMode2D.Force);
+                Debug.Log(rb.velocity.x / maxVelocity);
+                animator.speed = rb.velocity.x / maxVelocity;
+                animator.SetFloat("speed", rb.velocity.x);
+                sr.flipX = true;
             }
             if (!right && rb.velocity.x > -maxVelocity)
-                rb.AddForce(Vector2.right * -moveSpeed * Time.deltaTime, ForceMode2D.Force);
+            {
+                Vector2 force = Vector2.right * -moveSpeed * Time.deltaTime;
+                rb.AddForce(force, ForceMode2D.Force);
+                Debug.Log(-rb.velocity.x / maxVelocity);
+                animator.speed = -rb.velocity.x / maxVelocity;
+                animator.SetFloat("speed", -rb.velocity.x);
+                sr.flipX = false;
+            }
 
             //transform.position = Vector2.MoveTowards(transform.position, new Vector2(player.position.x, transform.position.y), moveSpeed * Time.deltaTime);
         }
     }
 
-    
     private void Movespeed()
     {
         moveSpeed = turnSpeed;

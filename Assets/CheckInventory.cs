@@ -7,15 +7,19 @@ public class CheckInventory : MonoBehaviour
 {
     public bool checkInv = false;
 
-    public void OnCollisionEnter2D(Collision2D collision)
+    public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.collider.tag == "GPlayer")
+        if(collision.tag == "GPlayer")
+        {
             checkInv = true;
+        }
     }
 
-    public void OnCollisionExit2D(Collision2D collision)
+    public void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision.collider.tag == "GPlayer")
+        if (collision.tag == "GPlayer")
+        {
             checkInv = false;
+        }
     }
 }

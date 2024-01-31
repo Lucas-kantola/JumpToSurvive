@@ -9,7 +9,10 @@ public class EnemyLife : MonoBehaviour
     public int nrEnemy;
     private void Awake()
     {
-        timer = 3;
+        if(timer == 0)
+        {
+            timer = 3;
+        }
         nrEnemy++;
     }
 
